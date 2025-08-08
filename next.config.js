@@ -1,14 +1,14 @@
-import type { NextConfig } from "next";
-import path from "node:path";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const path = require("node:path");
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
     typescript: {
         ignoreBuildErrors: true,
     },
     eslint: {
         ignoreDuringBuilds: true,
     },
-
     webpack(config) {
         config.resolve.alias = {
             ...(config.resolve.alias || {}),
@@ -18,4 +18,4 @@ const nextConfig: NextConfig = {
     },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
