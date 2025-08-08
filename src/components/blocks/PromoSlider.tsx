@@ -20,8 +20,8 @@ export default function PromoSlider({ slides = [] }: PromoSliderProps) {
         slides.length > 0
             ? slides
             : [
-                { id: 1, img: "/promo1.jpg", title: "Промо бренд" },
-                { id: 2, img: "/promo2.jpg", title: "Лучшие предложения" },
+                { id: 1, img: "/images/bencars-header.png", title: "Промо бренд BenCars" },
+                { id: 2, img: "/images/chery-header.png", title: "Лучшие предложения бренда Cherry" },
             ];
 
     return (

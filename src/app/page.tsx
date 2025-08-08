@@ -56,18 +56,8 @@ export default async function HomePage() {
                     <li>Помогаем выбрать комплектацию</li>
                 </ul>
             </section>
-
-            {/* 6. Сравнение цен */}
-            <section className="my-10">
-                <h2 className="text-2xl font-bold">Сравнение цен на новые авто</h2>
-                <img
-                    src="/images/price-compare.jpg"
-                    alt="Сравнение цен"
-                    className="rounded-xl shadow"
-                />
-            </section>
-
-            {/* 7. Лучшие предложения */}
+            
+            {/* 6. Лучшие предложения */}
             <section className="my-10">
                 <h2 className="text-2xl font-bold">Лучшие предложения</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -75,12 +65,12 @@ export default async function HomePage() {
                         Chery Tiggo 7 — 2 200 000 ₽
                     </div>
                     <div className="p-4 bg-white rounded-xl shadow">
-                        Lada Vesta — 1 350 000 ₽
+                        Arizzo 8 — 1 350 000 ₽
                     </div>
                 </div>
             </section>
 
-            {/* 8. Автокредиты */}
+            {/* 7. Автокредиты */}
             <section className="my-10 bg-primary text-white rounded-xl p-6">
                 <h2 className="text-2xl font-bold mb-4">Автокредиты</h2>
                 <p>Оформите кредит на автомобиль под выгодный процент прямо сейчас.</p>

@@ -7,8 +7,8 @@ import "swiper/css";
 
 export default function MainPromoSlider() {
     const slides = [
-        { id: 1, img: "/main1.jpg", title: "Новые автомобили со скидкой" },
-        { id: 2, img: "/main2.jpg", title: "Лучшие предложения от дилеров" },
+        { id: 1, img: "/images/bencars-footer.png", title: "Bencars - лучшие предложения для покупки автомобилей" },
+        { id: 2, img: "/images/chery-footer.png", title: "Дилер автомобилей Cherry" },
     ];
 
     return (
