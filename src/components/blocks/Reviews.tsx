@@ -13,7 +13,7 @@
                         key={review.id}
                         className="p-4 bg-white rounded-xl shadow text-gray-700"
                     >
-                        <p className="italic">"{review.text}"</p>
+                        <p className="italic">&#34;{review.text}"</p>
                         <p className="mt-2 font-semibold">— {review.name}</p>
                     </div>
                 ))}

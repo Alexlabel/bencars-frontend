@@ -1,4 +1,4 @@
-﻿// app/brands/page.tsx
+// app/brands/page.tsx
 import { getBrands } from "@/lib/api";
 import BrandsCatalog from "@/components/blocks/BrandsCatalog";
 import {Metadata} from "next";
