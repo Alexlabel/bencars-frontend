@@ -2,7 +2,11 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-export const PromoHeader : React.FC = () => {
+import type { Model } from "@/components/pages/PromoPage";
+interface PromoHeaderProps {
+    models?: Model[];
+}
+export const PromoHeader : React.FC<PromoHeaderProps> = ({models}) => {
     const router = useRouter();
     const [sidebarOpen, setSidebarOpen] = useState<Boolean>(false);
     return (
@@ -76,9 +80,9 @@ export const PromoHeader : React.FC = () => {
                             opacity-0 -translate-y-2 pointer-events-none
                             group-focus:opacity-100 group-focus:translate-y-0 group-focus:pointer-events-auto group-focus:flex
                         ">
-                            <div className="hover:bg-[var(--background)] transition-all duration-300 w-full p-4">Модель Chery 1</div>
-                            <div className="hover:bg-[var(--background)] transition-all duration-300 w-full p-4">Модель Chery 2</div>
-                            <div className="hover:bg-[var(--background)] transition-all duration-300 w-full p-4">Модель Chery 3</div>
+                            {models?.map((model) => (
+                                <div className="hover:bg-[var(--background)] transition-all duration-300 w-full p-4">{model.name}</div>
+                            ))}
                         </div>
                     </button>
                     {/* Комплектации */}

@@ -1,11 +1,6 @@
 import { getPromoPage, getAllPromoPages } from "@/lib/api";
 import type { Metadata } from "next";
 import PromoPage from "@/components/pages/PromoPage";
-import { PromoHeader } from "./layout/PromoHeader";
-import MainPromoSlider from "@/components/blocks/MainPromoSlider";
-import { PriceComparison } from "@/components/blocks/PriceComparison";
-import { ModelsBlock } from "./blocks/ModelsBlock";
-import { Trims } from "./blocks/Trims";
 
 export interface PageParams {
     region: string;
@@ -54,12 +49,8 @@ export default async function PromoPageWrapper({ params }: { params: PageParams 
 
     if (!promoData) {
         return (
-            <div className="w-full max-w-[1620px] max-lg:max-w-[1280px] mx-auto md:px-8 bg-[#F2F2F2] flex flex-col gap-4">
-                <PromoHeader />
-                <MainPromoSlider />
-                <PriceComparison />
-                <ModelsBlock />
-                <Trims />
+            <div className="w-screen h-screen bg-[#F2F2F2] flex justify-center items-center gap-4">
+                <h1 className="font-[600] text-[24px]">Страничка не найдена</h1>
             </div>
         );
     }

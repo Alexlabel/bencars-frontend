@@ -15,10 +15,6 @@ import { BestOffers } from "@/components/blocks/BestOffers";
 import { AutoCredits } from "@/components/blocks/AutoCredits";
 import { FindCarFormBottom } from "@/components/blocks/FindCarFormBottom";
 import { Footbar } from "@/components/layout/Footbar";
-import BrandsPage from "./brands/page";
-import PromoPageWrapper from "./region/brand/page";
-import { useCity } from "@/components/providers/useCity";
-import PromoPage from "@/components/pages/PromoPage";
 export default async function HomePage() {
     // ✅ Загружаем бренды из API
     const brands = await getBrands();
@@ -30,7 +26,7 @@ export default async function HomePage() {
                 {/* // основной контент */}
                 <main className="w-full bg-[#F2F2F2]">
                     {/* 1. Первый промо-блок со слайдером */}
-                    <MainPromoSlider />
+                    <MainPromoSlider/>
 
                     {/* 2. Блок с фильтрами */}
                     <FindCarForm />

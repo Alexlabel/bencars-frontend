@@ -3,113 +3,23 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
-type Trim = {
-    id: string | number;
-    name: string;
-    price: string;
-    desc: string;
-    monthly?: string;
-};
-
-type Car = {
-    id: string;
-    name: string;
-    trims: Trim[];
-};
-
+import type { Trim } from "@/components/pages/PromoPage";
+import type { Model } from "@/components/pages/PromoPage";
+interface TrimsProps {
+    trims?: Trim[]
+    cars?: Model[]
+}
 // Demo data. Replace with real API data when wiring backend
-const cars: Car[] = [
-    {
-        id: "jetour-dashing",
-        name: "Jetour Dashing",
-        trims: [
-            {
-                id: 1,
-                name: "Comfort",
-                price: "от 2 039 900 ₽",
-                desc: "1.5 (147 л.с), Бензин, Передний, Автомат",
-                monthly: "от 35 500 ₽/мес",
-            },
-            {
-                id: 2,
-                name: "Luxury",
-                price: "от 2 199 000 ₽",
-                desc: "1.6 (186 л.с), Бензин, Полный, Робот",
-                monthly: "от 38 200 ₽/мес",
-            },
-            {
-                id: 3,
-                name: "Premium",
-                price: "от 2 350 000 ₽",
-                desc: "1.5 (150 л.с), Бензин, Передний, Автомат",
-                monthly: "от 41 900 ₽/мес",
-            },
-            {
-                id: 4,
-                name: "Ultimate",
-                price: "от 2 550 000 ₽",
-                desc: "1.5 (177 л.с), Бензин, Полный, Автомат",
-                monthly: "от 45 000 ₽/мес",
-            },
-        ],
-    },
-    {
-        id: "chery-tiggo-7-pro",
-        name: "Chery Tiggo 7 Pro",
-        trims: [
-            {
-                id: 1,
-                name: "Standard",
-                price: "от 1 899 000 ₽",
-                desc: "1.5 (147 л.с), Бензин, Передний, Вариатор",
-                monthly: "от 33 000 ₽/мес",
-            },
-            {
-                id: 2,
-                name: "Style",
-                price: "от 2 020 000 ₽",
-                desc: "1.5 (147 л.с), Бензин, Полный, Вариатор",
-                monthly: "от 35 400 ₽/мес",
-            },
-            {
-                id: 3,
-                name: "Tech",
-                price: "от 2 190 000 ₽",
-                desc: "1.6 (186 л.с), Бензин, Полный, Робот",
-                monthly: "от 38 700 ₽/мес",
-            },
-        ],
-    },
-    {
-        id: "geely-coolray",
-        name: "Geely Coolray",
-        trims: [
-            {
-                id: 1,
-                name: "Base",
-                price: "от 1 750 000 ₽",
-                desc: "1.5 (177 л.с), Бензин, Передний, Автомат",
-                monthly: "от 30 500 ₽/мес",
-            },
-            {
-                id: 2,
-                name: "Comfort",
-                price: "от 1 890 000 ₽",
-                desc: "1.5 (177 л.с), Бензин, Полный, Автомат",
-                monthly: "от 33 400 ₽/мес",
-            },
-        ],
-    },
-];
 
-export const Trims: React.FC = () => {
-    const [selectedCarId, setSelectedCarId] = useState<string>(cars[0]?.id ?? "");
+export const Trims: React.FC<TrimsProps> = ({trims, cars}) => {
+    const safeCars = cars ?? [];
+    const safeTrims = trims ?? [];
+    const [selectedCarId, setSelectedCarId] = useState<string | number>(safeCars[0]?.id ?? "");
     const [currentSlide, setCurrentSlide] = useState(0);
     const [cardsPerSlide, setCardsPerSlide] = useState(3);
 
-    const selectedCar = useMemo(() => cars.find((c) => c.id === selectedCarId) ?? cars[0], [selectedCarId]);
-    const trims = selectedCar?.trims ?? [];
-    const totalSlides = Math.max(1, Math.ceil((trims.length || 1) / cardsPerSlide));
+    const selectedCar = useMemo(() => safeCars.find((c) => c.id === selectedCarId) ?? safeCars[0], [selectedCarId, safeCars]);
+    const totalSlides = Math.max(1, Math.ceil((safeTrims.length || 1) / cardsPerSlide));
 
     useEffect(() => {
         const updateCardsPerSlide = () => {
@@ -141,7 +51,7 @@ export const Trims: React.FC = () => {
             {/* Car selector strip */}
             <div className="w-full mb-6">
                 <div className="flex flex-wrap items-center gap-8 border-b-2 border-b-gray-300 pt-2">
-                    {cars.map((car) => {
+                    {safeCars.map((car) => {
                         const isActive = car.id === selectedCarId;
                         return (
                             <button
@@ -188,7 +98,7 @@ export const Trims: React.FC = () => {
                         {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                             <div key={slideIndex} className="w-full flex-shrink-0">
                                 <div className="flex gap-8">
-                                    {(trims.length ? trims : [{ id: "empty", img: "/test-car.png", name: "Нет комплектаций", price: "—", desc: "", monthly: "" } as Trim])
+                                    {(safeTrims.length ? safeTrims : [{ id: "empty", img: "/test-car.png", name: "Нет комплектаций", price: 0, desc: "", monthly: "" } as Trim])
                                         .slice(slideIndex * cardsPerSlide, slideIndex * cardsPerSlide + cardsPerSlide)
                                         .map((trim) => (
                                             <div
@@ -224,9 +134,9 @@ export const Trims: React.FC = () => {
                                                 </div>
                                                 <div className="flex justify-between">
                                                     <span className="font-[400] text-[18px] leading-[1.3] text-[#8C8C8C]">От производителя (РРЦ)</span>
-                                                    <span className="line-through text-[#8C8C8C] font-[400] text-[20px] leading-[1.1]">2 380 000 ₽</span>
+                                                    <span className="text-white font-[400] text-[20px] leading-[1.1]">{trim.price} ₽</span>
                                                 </div>
-                                                <div className="rounded-[28px] bg-[var(--green)] flex justify-center items-center">
+                                                <div className="rounded-[28px] hover:scale-[1.03] transition-all duration-300 cursor-pointer bg-[var(--green)] flex justify-center items-center p-4">
                                                     <span className="text-[var(--foreground)] text-[18px] font-[600] leading-[1.1]">Подтвердить</span>
                                                 </div>
                                             </div>

@@ -44,7 +44,9 @@ export const PriceComparison : React.FC<PriceComparisonProps> = ({compareText}) 
             </div>
             <div className="relative w-full flex justify-end">
                 <div className="w-full md:max-w-[520px] lg:max-w-[720px] rounded-[36px] p-9 bg-white flex items-start justify-between">
-                    <p className="font-[400] text-[16px] tablet:text-[20px] ">{compareText}</p>
+                    <p className="font-[400] text-[16px] tablet:text-[20px] ">
+                        {compareText || compareText}
+                    </p>
                     <Image src="/Attention.svg" alt="Attention" width="48" height="48"/>
                 </div>
             </div>

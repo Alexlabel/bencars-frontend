@@ -7,6 +7,7 @@ export const Headers : React.FC = () => {
     const {city, setCity, cities} = useCity();
     const [isBookCallModalOpened, setBookCallModalOpened] = useState<boolean>(false);
     {/* Выбор города*/}
+    const [cityChoosing, setCityChoosing] = useState<Boolean>(false);
     const [isCityChooseModalOpened, setCityChooseModalOpened] = useState<boolean>(false);
     const [searchCity, setSearchCity] = useState<string>('');
     const filteredCities = cities.filter(city => city.toLowerCase().includes((searchCity.toLowerCase())))
@@ -20,7 +21,7 @@ export const Headers : React.FC = () => {
                      <Image src="/logo.svg" alt="Bencars" fill/>
                     </div>
                     {/* Выбор города */}
-                    <div tabIndex={0} className="relative max-tablet:hidden flex gap-[4px] items-center px-4 py-[11px] rounded-[20px] focus:outline-[var(--green)] transition-all duration-150 cursor-pointer group">
+                    <div tabIndex={0} onClick={(e) => setCityChoosing(!cityChoosing)} className="relative max-tablet:hidden flex gap-[4px] items-center px-4 py-[11px] rounded-[20px] focus:outline-[var(--green)] transition-all duration-150 cursor-pointer group">
                         <Image src="/Cursor.svg" alt="Cursor" width="24" height="24"/>
                         <span className="text-[15px] font-[500] tracking-[0.4px] leading-[1.3]">
                             {city}
@@ -29,20 +30,20 @@ export const Headers : React.FC = () => {
                             <Image src="/chevron.svg" alt="Стрелка" width="24" height="24"/>
                         </div>
                         {/* Всплывающее окно*/}
-                        <div className="
-                            z-50 rounded-[28px] absolute top-[100%] left-0
-                            flex-col text-[18px] font-[400] text-[var(--foreground)] bg-white shadow-[0px_0px_20px_0px_#00000022] overflow-hidden
-                            transition-all duration-300 p-6
-                            opacity-0 -translate-y-2 pointer-events-none
-                            group-focus:opacity-100 group-focus:translate-y-0 group-focus:pointer-events-auto group-focus:flex
-                        ">
-
+                        <div 
+                            className="
+                                z-50 rounded-[28px] absolute top-[100%] left-0
+                                flex-col text-[18px] font-[400] text-[var(--foreground)] bg-white shadow-[0px_0px_20px_0px_#00000022] overflow-hidden
+                                transition-all duration-300 p-6
+                                -translate-y-2 opacity-0
+                                group-focus:opacity-100 group-focus:translate-y-0 group-focus:block group-focus:pointer-events-auto"
+                            style={{pointerEvents: cityChoosing ? 'auto' : 'none'}}
+                        >
                             <h1 className="text-left text-[18px] font-[400] leading-[1.3]">Ваш город Краснодар?</h1>
-                            <div className="w-full flex gap-8 justify-between mt-6">
+                            <div className="w-full flex gap-8 justify-between mt-6 group-focus:pointer-events-auto">
                                 <button
                                     onClick={(e) => {
                                         setCity('Краснодар');
-                                        // Find the parent .group element and blur it to close the popover
                                         const groupDiv = e.currentTarget.closest('.group');
                                         if (groupDiv) (groupDiv as HTMLElement).blur();
                                     }}

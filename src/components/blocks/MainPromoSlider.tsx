@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import Image from "next/image";
 import "swiper/css";
-import { LeftBottomInvertedBorderRadius } from "../svg/LeftBottomInvertedBorderRadius";
 import { useState } from "react";
 export default function MainPromoSlider() {
     const slides = [
