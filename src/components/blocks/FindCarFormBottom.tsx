@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image"
 import { useCity } from "../providers/useCity";
 export const FindCarFormBottom : React.FC = () => {
