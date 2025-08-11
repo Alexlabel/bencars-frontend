@@ -33,14 +33,13 @@ export const Headers : React.FC = () => {
                             z-50 rounded-[28px] absolute top-[100%] left-0
                             flex-col text-[18px] font-[400] text-[var(--foreground)] bg-white shadow-[0px_0px_20px_0px_#00000022] overflow-hidden
                             transition-all duration-300 p-6
-                            opacity-0 -translate-y-2
+                            opacity-0 -translate-y-2 pointer-events-none
                             group-focus:opacity-100 group-focus:translate-y-0 group-focus:pointer-events-auto group-focus:flex
                         ">
 
                             <h1 className="text-left text-[18px] font-[400] leading-[1.3]">Ваш город Краснодар?</h1>
                             <div className="w-full flex gap-8 justify-between mt-6">
                                 <button
-                                    tabIndex={0}
                                     onClick={(e) => {
                                         setCity('Краснодар');
                                         // Find the parent .group element and blur it to close the popover
@@ -52,7 +51,6 @@ export const Headers : React.FC = () => {
                                     Да, верно
                                 </button>
                                 <button
-                                    tabIndex={0}
                                     onClick={(e) => {
                                         setCityChooseModalOpened(!isCityChooseModalOpened);
                                         const groupDiv = e.currentTarget.closest('.group');

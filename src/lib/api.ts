@@ -19,14 +19,33 @@ async function fetchAPI(endpoint: string, params: string = "") {
 // ✅ Бренды для каталога
 export async function getBrands() {
     const data = await fetchAPI("/brands?populate=logo");
-    if (!data) return [];
-    return data.map((brand: any) => ({
-        id: brand.id,
-        name: brand.attributes.name,
-        logo: brand.attributes.logo?.data?.attributes?.url
-            ? `${API_URL.replace('/api', '')}${brand.attributes.logo.data.attributes.url}`
-            : "/default-logo.png",
-    }));
+
+    if (!Array.isArray(data) || data.length === 0) {
+        console.log('No brands data received');
+        return [];
+    }
+
+    const mappedBrands = data.map((brand: any) => {
+        let logoUrl = "/default-logo.png";
+
+        if (brand.logo) {
+            // Если поле logo — объект медиа
+            const logoFormats = brand.logo.formats;
+            logoUrl = logoFormats?.medium?.url
+                ? `${API_URL}${logoFormats.medium.url}`
+                : brand.logo.url
+                    ? `${API_URL}${brand.logo.url}`
+                    : "/default-logo.png";
+        }
+
+        return {
+            id: brand.id,
+            name: brand.name,
+            logo: logoUrl.replace('/api', ''),
+        };
+    });
+
+    return mappedBrands;
 }
 
 // ✅ ВСЕ ПРОМО-СТРАНИЦЫ (для генерации маршрутов)
@@ -35,10 +54,13 @@ export async function getAllPromoPages() {
 
     if (!data) return [];
 
-    return data.map((item: any) => ({
-        region: item.attributes.region,
-        brand: item.attributes.brand?.data?.attributes?.slug || "",
-    }));
+    // Фильтруем записи, у которых нет attributes
+    return data
+        .filter((item: any) => item && item.attributes)
+        .map((item: any) => ({
+            region: item.attributes.region,
+            brand: item.attributes.brand?.data?.attributes?.slug || "",
+        }));
 }
 
 // ✅ Промо-страница по региону и бренду
@@ -46,10 +68,13 @@ export async function getPromoPage(region: string, brand: string) {
     const data = await fetchAPI(
         `/promo-pages?filters[region][slug][$eq]=${region}&filters[brand][slug][$eq]=${brand}&populate[slides][populate]=image&populate[models][populate]=image&populate[trims]=*`
     );
+    // const data = await fetchAPI(
+    // '/promo-pages?filters[region][slug][$eq]=${region}&filters[brand][slug][$eq]=${brand}&populate=slides.image,models.image,trims'
+    // );
 
     if (!data || data.length === 0) return null;
 
-    const promo = data[0].attributes;
+    const promo = data[0];
 
     return {
         title: promo.title,
@@ -61,8 +86,8 @@ export async function getPromoPage(region: string, brand: string) {
                 title: slide.title,
                 description: slide.description,
                 image: {
-                    url: slide.image?.data?.attributes?.url
-                        ? `${API_URL.replace('/api', '')}${slide.image.data.attributes.url}`
+                    url: slide.image?.data?.url
+                        ? `${API_URL.replace('/api', '')}${slide.image.data.url}`
                         : "",
                 },
             })) || [],

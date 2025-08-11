@@ -4,6 +4,10 @@ import React from "react";
 import PromoSlider from "@/components/blocks/PromoSlider";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import PromoPageSlider from "@/app/[region]/[brand]/blocks/PromoSlider";
+import { PromoHeader } from "@/app/[region]/[brand]/layout/PromoHeader";
+import { PriceComparison } from "../blocks/PriceComparison";
+import { ModelsBlock } from "@/app/[region]/[brand]/blocks/ModelsBlock";
 
 // ✅ Типы для данных из Strapi
 interface StrapiSlide {
@@ -44,16 +48,18 @@ export default function PromoPage({ data }: PromoPageProps) {
         setPage(data);
     }, [data]);
 
+    console.log('Full data:', JSON.stringify(data, null, 2))
     if (!page) return <p>Загрузка...</p>;
 
     return (
-        <main className="max-w-7xl mx-auto px-4">
+        <div className="w-full max-w-[1620px] max-lg:max-w-[1280px] mx-auto md:px-8 bg-[#F2F2F2] flex flex-col gap-4">
+            <PromoHeader />
             {/* ✅ Слайдер промо (конвертируем StrapiSlide → Slide из PromoSlider) */}
             {page.slides && (
-                <PromoSlider
+                <PromoPageSlider
                     slides={page.slides.map((slide) => ({
                         id: slide.id,
-                        img: slide.image.url, // ✅ Преобразуем под тип PromoSlider
+                        image: slide.image.url, // ✅ Преобразуем под тип PromoSlider
                         title: slide.title || "",
                     }))}
                 />
@@ -61,34 +67,13 @@ export default function PromoPage({ data }: PromoPageProps) {
 
             {/* Сравнение цен */}
             {page.compareText && (
-                <section className="my-10">
-                    <h2 className="text-2xl font-bold">Сравнение цен</h2>
-                    <p className="text-gray-600">{page.compareText}</p>
-                </section>
+                <PriceComparison compareText={page.compareText}/>
             )}
 
             {/* Модели автомобилей */}
-            {page.models?.map((model, index) => (
-                <section
-                    key={model.id}
-                    className={`my-10 flex flex-col md:flex-row ${
-                        index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                    }`}
-                >
-                    <div className="md:w-1/2 relative h-64 md:h-96">
-                        <Image
-                            src={model.image.url}
-                            alt={model.name}
-                            fill
-                            className="rounded-xl shadow object-cover"
-                        />
-                    </div>
-                    <div className="md:w-1/2 md:px-6 flex flex-col justify-center">
-                        <h3 className="text-xl font-semibold">{model.name}</h3>
-                        <p>{model.description}</p>
-                    </div>
-                </section>
-            ))}
+            {page.models && (
+                <ModelsBlock />
+            )}
 
             {/* Доступные комплектации */}
             {page.trims && page.trims.length > 0 && (
@@ -99,7 +84,7 @@ export default function PromoPage({ data }: PromoPageProps) {
                             <li key={trim.id} className="bg-white rounded-xl p-4 shadow">
                                 <h4 className="font-semibold">{trim.name}</h4>
                                 <p className="text-gray-600">
-                                    {trim.price.toLocaleString()} ₽
+                                    {trim.price} ₽
                                 </p>
                             </li>
                         ))}
@@ -129,6 +114,6 @@ export default function PromoPage({ data }: PromoPageProps) {
                     </button>
                 </form>
             </section>
-        </main>
+        </div>
     );
 }

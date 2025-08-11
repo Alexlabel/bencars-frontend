@@ -2,9 +2,16 @@
 import { useState } from "react";
 import { useCity } from "../providers/useCity";
 import Image from "next/image";
-export const PriceComparison : React.FC = () => {
+interface PriceComparisonProps {
+    compareText?: string;
+}
+export const PriceComparison : React.FC<PriceComparisonProps> = ({compareText}) => {
     const {cities} = useCity();
     const [currentRegion, setCurrentRegion] = useState<string>(cities[0]);
+    // фоллбек
+    if (!compareText) {
+        const compareText = "Цена на один и тот же новый автомобиль Haval Jolion, комплектация Comfort 2WD, 2025 отличается на 350 000 ₽ в ЮФО";
+    }
     return (
         <div className="relative w-full py-8 max-md:px-4 flex flex-wrap max-tablet:flex-col max-md:gap-4 lg:gap-16 md:gap-32">
             <h1 className="text-[var(--foreground)] text-[28px] tablet:text-[42px]">Сравнение цен на новые авто</h1>
@@ -16,13 +23,14 @@ export const PriceComparison : React.FC = () => {
                         <span className="text-[16px] lg:text-[20px] leading-[1.3] font-[400]">комплектация Comfort 2WD</span>
                     </div>
                 </div>
-                <div className="relative md:absolute w-full md:w-[60%] md:top-[150px] lg:w-[800px] lg:left-[100px] lg:top-0 aspect-[343/225]">
+                <div className="relative md:absolute w-full md:w-[60%] md:left-[100px] md:top-0 lg:w-[800px] lg:left-[100px] lg:top-0 aspect-[343/225]">
                     <Image src="/regions.svg" alt="Регионы" fill style={{objectFit: 'cover'}}/>
                 </div>
                 <div className="w-full md:max-w-[395px] lg:max-w-[435px] bg-[var(--foreground)] rounded-[36px] py-[24px] overflow-hidden">
                     <div className="w-full flex flex-col h-full overflow-auto">
                         {cities.map((city) => (
                             <div 
+                                key={city}
                                 tabIndex={0} 
                                 className="cursor-pointer flex items-center focus:bg-[var(--green)] transition-all duration-300 group justify-between py-4 px-9"
                                 onClick={() => setCurrentRegion(city)}
@@ -35,8 +43,8 @@ export const PriceComparison : React.FC = () => {
                 </div>
             </div>
             <div className="relative w-full flex justify-end">
-                <div className="w-full md:max-w-[620px] lg:max-w-[720px] rounded-[36px] p-9 bg-white flex items-start justify-between">
-                    <p className="font-[400] text-[16px] tablet:text-[24px] ">Цена на один и тот же новый автомобиль Haval Jolion, комплектация Comfort 2WD, 2025 отличается на 350 000 ₽ в ЮФО</p>
+                <div className="w-full md:max-w-[520px] lg:max-w-[720px] rounded-[36px] p-9 bg-white flex items-start justify-between">
+                    <p className="font-[400] text-[16px] tablet:text-[20px] ">{compareText}</p>
                     <Image src="/Attention.svg" alt="Attention" width="48" height="48"/>
                 </div>
             </div>

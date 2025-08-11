@@ -5,7 +5,7 @@ type CityContextType = {
     setCity: (city: string) => void;
     cities: string[];
 };
-const cities : string[] = ["Москва", "Санкт-Петербург", "Ростов-на-дону", "Новосибирск"]
+const cities : string[] = ["респ. Адыгея", "респ. Калмыкия", "респ. Крым", "Краснодар", "Астраханская обл.", "Волгоградская обл." , "Ростовская обл."]
 const CityContext = createContext<CityContextType | undefined>(undefined);
 
 export const CityProvider = ({children} : {children: ReactNode}) => {
