@@ -6,7 +6,7 @@ async function fetchAPI(endpoint: string, params: string = "") {
         headers: { "Content-Type": "application/json" },
         cache: "no-store", // или next: { revalidate: 60 } для ISR
     });
-
+    console.log(API_URL);
     if (!res.ok) {
         console.error(`Ошибка API: ${res.status} ${res.statusText}`);
         return null;
